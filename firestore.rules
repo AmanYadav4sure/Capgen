@@ -1,0 +1,20 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // User profile document: users/{userId}
+    // Users can read and write only their own profile document
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Caption projects: projects/{projectId}
+    // Authenticated users can read/write projects where userId matches their authenticated UID
+    match /projects/{projectId} {
+      allow read, create, update, delete: if request.auth != null && (
+        resource == null || resource.data.userId == request.auth.uid || request.resource.data.userId == request.auth.uid
+      );
+    }
+  }
+}
