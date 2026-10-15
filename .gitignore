@@ -1,0 +1,63 @@
+# Local preview tooling
+__v0_runtime_loader.js
+__v0_devtools.tsx
+__v0_jsx-dev-runtime.ts
+.snowflake/
+.v0-trash/
+.vercel/
+
+# Environment variables
+.env*.local
+.env
+.env.*
+!.env.example
+*service-account*.json
+*serviceAccount*.json
+
+# Common ignores
+node_modules
+.next/
+.DS_Store
+# Local tooling
+.freebuff/
+.agent/
+.agents/
+.claude/
+.codex/
+.kilo/
+brag-output/
+
+# Generated test output
+quality-evidence/
+refinement-evidence/
+seo-evidence/
+public/responsive-audits/
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+*.log
+*.tmp
+*.cache
+Thumbs.db
+desktop.ini
+
+# Historical local reports (retained locally, not published)
+/FUNCTIONAL_QA.md
+/NEON_CLERK_MIGRATION.md
+/QUALITY_AUDIT.md
+/REFACTORING_REPORT.md
+/REFINEMENT_REPORT.md
+/SEARCH_CONSOLE_ACTIONS.md
+/SECURITY_PERFORMANCE.md
+/SEO_AUDIT.md
+/SEO_IMPLEMENTATION.md
+/SEO_KEYWORD_STRATEGY.md
+/SEO_RESULTS.md
+/UI_UX_IMPROVEMENTS.md
+
+tsconfig.tsbuildinfo
+.neon
+migration-inputs/
+*legacy-export*.json
+*firebase-export*.json

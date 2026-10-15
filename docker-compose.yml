@@ -1,0 +1,67 @@
+# Capgen local stack.
+#
+#   docker compose up -d --build      # dev server with hot reload  → http://localhost:3000
+#   docker compose --profile prod up -d --build   # production build  → http://localhost:3000
+#   docker compose logs -f dev
+#   docker compose down
+#
+# Host port is configurable:  APP_PORT=3100 docker compose up -d
+# Secrets are read from .env.local (gitignored) — never copied into an image.
+
+services:
+  # ---------------------------------------------------------------
+  # Development: source is bind-mounted, edits hot-reload in place.
+  # node_modules and .next live in named volumes so the Windows
+  # host copy never shadows the Linux binaries inside the container.
+  # ---------------------------------------------------------------
+  dev:
+    build:
+      context: .
+      target: dev
+    container_name: capgen-dev
+    # Turbopack's watcher relies on inotify, which Docker Desktop does not
+    # forward from Windows/macOS bind mounts — edits made on the host would
+    # never reload. The webpack dev server supports polling, so it is the
+    # correct bundler inside the container. Host-native `npm run dev` keeps
+    # Turbopack.
+    command: npx next dev --webpack
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    env_file:
+      - path: .env.local
+        required: false
+    environment:
+      NODE_ENV: development
+      PORT: "3000"
+      WATCHPACK_POLLING: "true"
+      CHOKIDAR_USEPOLLING: "true"
+      CHOKIDAR_INTERVAL: "700"
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+      - next_cache:/app/.next
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------
+  # Production: standalone-ish build served by `next start`.
+  # NEXT_PUBLIC_* are baked at build time, so pass them through
+  # interpolation (see DOCKER.md) or the client bundle ships empty.
+  # ---------------------------------------------------------------
+  prod:
+    profiles: ["prod"]
+    build:
+      context: .
+      target: runner
+      args:
+        NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:-}
+    container_name: capgen-prod
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    env_file:
+      - path: .env.local
+        required: false
+    restart: unless-stopped
+
+volumes:
+  node_modules:
+  next_cache:

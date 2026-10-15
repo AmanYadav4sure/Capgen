@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "users": [
+    {
+      "uid": "legacy_fixture_user",
+      "email": "import@capgen-qa.example.test",
+      "name": "QA Imported",
+      "credits": 42,
+      "plan": "pro",
+      "isPro": true,
+      "createdAt": "2026-10-01T00:00:00Z",
+      "updatedAt": "2026-10-14T00:00:00Z"
+    }
+  ],
+  "projects": [
+    {
+      "id": "imported-project",
+      "userId": "legacy_fixture_user",
+      "title": "QA Import",
+      "transcriptText": "नमस्ते",
+      "words": [
+        {
+          "word": "नमस्ते",
+          "start": 0,
+          "end": 1
+        }
+      ],
+      "styleSettings": {
+        "aspectRatio": "9:16",
+        "position": "bottom"
+      },
+      "hasDeductedCredit": true,
+      "revision": 7,
+      "createdAt": "2026-10-01T00:00:00Z",
+      "updatedAt": "2026-10-14T00:00:00Z"
+    }
+  ],
+  "billingEvents": [
+    {
+      "deliveryIdHash": "e86ced3f2f64fd513f66a66969ec0f2d000024f67a67a5c4ae09163964982d34",
+      "userId": "legacy_fixture_user",
+      "credits": 300,
+      "plan": null,
+      "appliedAt": "2026-10-02T00:00:00Z"
+    }
+  ]
+}
